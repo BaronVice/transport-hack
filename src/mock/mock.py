@@ -34,63 +34,34 @@ stops = {
     "Первомайский микрорайон": (52.36500, 104.40833)
 }
 
-def interpolate_coords(start, end, fraction):
-    return (
-        start[0] + (end[0] - start[0]) * fraction,
-        start[1] + (end[1] - start[1]) * fraction
-    )
-
 def simulate_bus_route(stops, start_time, duration_minutes):
     data = []
     current_time = start_time
     total_distance = 0
-    prev_stop_coords = None
+    prev_stop = None
 
     # Время в секундах между остановками
     time_between_stops = duration_minutes * 60 / (len(stops) - 1)
 
-    stop_names = list(stops.keys())
-
-    for i in range(len(stop_names) - 1):
-        stop_name = stop_names[i]
-        next_stop_name = stop_names[i + 1]
-        prev_stop_coords = stops[stop_name]
-        next_stop_coords = stops[next_stop_name]
-
-        # Общее количество промежуточных точек между остановками
-        num_intermediate_points = int(time_between_stops / 5)
-        
-        for j in range(num_intermediate_points):
-            fraction = j / num_intermediate_points
-            coords = interpolate_coords(prev_stop_coords, next_stop_coords, fraction)
-
+    for stop_name, coords in stops.items():
+        if prev_stop:
             # Симуляция средней скорости (км/ч)
             speed = random.uniform(20, 40)
 
             # Добавление записи в массив данных
             data.append({
                 "time": current_time.isoformat(),
-                "stop": stop_name,
-                "next_stop": next_stop_name,
+                "stop": prev_stop,
+                "next_stop": stop_name,
                 "latitude": coords[0],
                 "longitude": coords[1],
                 "speed_kmh": speed
             })
-
-            current_time += timedelta(seconds=5)
-
-        # Добавляем конечную точку текущего сегмента (следующая остановка)
-        data.append({
-            "time": current_time.isoformat(),
-            "stop": stop_name,
-            "next_stop": next_stop_name,
-            "latitude": next_stop_coords[0],
-            "longitude": next_stop_coords[1],
-            "speed_kmh": random.uniform(20, 40)
-        })
         
-        current_time += timedelta(seconds=5)
-
+        # Переход к следующей остановке
+        prev_stop = stop_name
+        current_time += timedelta(seconds=time_between_stops)
+    
     return data
 
 # Начало маршрута
