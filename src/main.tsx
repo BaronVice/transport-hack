@@ -1,10 +1,11 @@
-import Home from '@pages/Home.tsx';
-import { setupStore } from '@store/store.ts';
-import '@styles/index.css';
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Home from '@pages/Home.tsx'
+import { setupStore } from '@store/store.ts'
+import '@styles/globals.css'
+import '@styles/index.css'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { Provider } from 'react-redux'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
 const router = createBrowserRouter([
 	{
