@@ -4,7 +4,7 @@ import MapboxMap from '@/components/Map'
 
 const Home = () => {
 	return (
-		<div className='flex h-screen bg-blue-50 justify-between items-center select-none'>
+		<div className='flex h-screen justify-between items-center select-none'>
 			<Sidebar/>
 			<MapboxMap></MapboxMap>
 		</div>
