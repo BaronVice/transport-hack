@@ -11,13 +11,13 @@ const Timer = () => {
     return () => clearInterval(timerId);
   }, []);
 
-  const formatTime = (time) => {
+  const formatTime = (time: Date) => {
     return time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-900">
-      <div className="text-white text-6xl font-bold">
+    <div className="">
+      <div className="text-6xl font-bold">
         {formatTime(currentTime)}
       </div>
     </div>
