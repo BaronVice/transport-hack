@@ -10,6 +10,21 @@ function MapboxMap() {
   const mapNode = React.useRef(null);
   const [polygons, setPolygons] = React.useState([]);
   const [noises, setNoises] = React.useState([]);
+  const [busRoute, setBusRoute] = React.useState(null);
+
+  React.useEffect(() => {
+    const fetchBusRoute = async () => {
+      try {
+        const response = await fetch('src/mock/bus_route.json');
+        const data = await response.json();
+        setBusRoute(data);
+      } catch (error) {
+        console.error('Error fetching bus route data:', error);
+      }
+    };
+
+    fetchBusRoute();
+  }, []);
 
   React.useEffect(() => {
     if (typeof window === 'undefined' || mapNode.current === null) return;
@@ -25,6 +40,9 @@ function MapboxMap() {
     mapboxMap.on('load', () => {
       initializeGrid(mapboxMap);
       fetchData();
+      if (busRoute !== null) {
+        addBusRoute(mapboxMap, busRoute);
+      }
     });
 
     setMap(mapboxMap);
@@ -32,7 +50,7 @@ function MapboxMap() {
     return () => {
       mapboxMap.remove();
     };
-  }, []);
+  }, [busRoute]);
 
   const initializeGrid = (mapboxMap) => {
     const gridSize = 0.002;
@@ -219,6 +237,35 @@ function MapboxMap() {
     });
 
     document.getElementById('avarageNoise').innerHTML = `<p>Средний шум: ${avarageNoise}</p>`;
+  };
+
+  const addBusRoute = (mapboxMap, busRoute) => {
+    const geojson = {
+      type: 'Feature',
+      geometry: {
+        type: 'LineString',
+        coordinates: busRoute.map(point => [point.longitude, point.latitude]),
+      },
+    };
+
+    mapboxMap.addSource('route', {
+      type: 'geojson',
+      data: geojson,
+    });
+
+    mapboxMap.addLayer({
+      id: 'route',
+      type: 'line',
+      source: 'route',
+      layout: {
+        'line-join': 'round',
+        'line-cap': 'round',
+      },
+      paint: {
+        'line-color': '#888',
+        'line-width': 6,
+      },
+    });
   };
 
   return <div ref={mapNode} style={{ width: '100%', height: '100%' }} />;
