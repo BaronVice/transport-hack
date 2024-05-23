@@ -24,15 +24,15 @@ export const createChart = (
 				proc = data.properties.procentsSpeed
 				tracks.forEach(data1 => {
 					if (
-						data1['longitude'] >= data.geometry.coordinates[0][0][0] &&
-						data1['longitude'] <= data.geometry.coordinates[0][1][0]
+						data1['lon'] >= data.geometry.coordinates[0][0][0] &&
+						data1['lon'] <= data.geometry.coordinates[0][1][0]
 					) {
 						if (
-							data1['latitude'] >= data.geometry.coordinates[0][2][1] &&
-							data1['latitude'] <= data.geometry.coordinates[0][0][1]
+							data1['lat'] >= data.geometry.coordinates[0][2][1] &&
+							data1['lat'] <= data.geometry.coordinates[0][0][1]
 						) {
 							dataPoints.push(data1['speed'])
-							labels.push(data1['time'])
+							labels.push(data1['timestamp'])
 						}
 					}
 				})
@@ -40,28 +40,10 @@ export const createChart = (
 		}
 	})
 
-	const chartContainer = document.querySelector('#lineChart')
-
-	if (chartContainer) {
-		new Chart(chartContainer as ChartItem, {
-			type: 'line',
-			data: {
-				labels,
-				datasets: [
-					{
-						label: 'Уровень шума',
-						data: dataPoints,
-					},
-				],
-			},
-		})
-	} else {
-		console.error('Element with id "lineChart" not found.')
-	}
 
 	const averageSpeedElement = document.getElementById('averageSpeed')
 	if (averageSpeedElement) {
-		averageSpeedElement.innerHTML = `<p>Средняя скорость: ${averageSpeed}</p>`
+		averageSpeedElement.innerHTML = `<p>Средняя скорость: ${averageSpeed.toFixed(2)} км/ч</p>`
 	} else {
 		console.error('Element with id "averageSpeed" not found.')
 	}

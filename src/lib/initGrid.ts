@@ -66,11 +66,11 @@ export const initializeGrid = (
 		const coordinates = e.lngLat
 		const popupContent = `<h3>Координаты полигона:</h3><p>${coordinates.lng}, ${coordinates.lat}</p><div id="averageSpeed"></div>`
 		new mapboxgl.Popup()
-			.setLngLat(coordinates)
-			.setHTML(
-				`<div class="chart">${popupContent}<canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas></div>`
-			)
-			.addTo(mapboxMap)
+		.setLngLat(coordinates)
+		.setHTML(
+			`<div class="chart">${popupContent}<canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas></div>`
+		)
+		.addTo(mapboxMap)
 		createChart(coordinates, polygons, tracks)
 	})
 
