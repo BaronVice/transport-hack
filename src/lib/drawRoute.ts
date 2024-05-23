@@ -5,8 +5,6 @@ export const drawRoute = (mapboxMap: mapboxgl.Map, route: Point[]) => {
 		return
 	}
 
-	console.log(route)
-
 	const geojson = {
 		type: 'Feature',
 		geometry: {
@@ -16,7 +14,8 @@ export const drawRoute = (mapboxMap: mapboxgl.Map, route: Point[]) => {
 	}
 
 	if (mapboxMap.getLayer('route')) {
-		return
+		mapboxMap.removeLayer('route')
+		mapboxMap.removeSource('route')
 	}
 	mapboxMap.addSource('route', {
 		type: 'geojson',

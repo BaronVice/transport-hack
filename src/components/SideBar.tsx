@@ -11,6 +11,7 @@ import { polygonSlice } from '@/store/reducers/polygonSlice'
 import { routesSlice } from '@/store/reducers/routesSlice'
 import { useState } from 'react'
 import Timer from './ui/Timer'
+import { Button } from './ui/button'
 import { Slider } from './ui/slider'
 
 const SideBar = () => {
@@ -68,6 +69,13 @@ const SideBar = () => {
 					step={0.001}
 				/>
 			</div>
+			<Button
+				onClick={() => {
+					alert('пока не сделали')
+				}}
+			>
+				Экспортировать в GeoJSON
+			</Button>
 		</div>
 	)
 }

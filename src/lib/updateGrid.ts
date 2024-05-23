@@ -15,14 +15,16 @@ export const updateGridSpeedLevels = (
 	console.log(tracks)
 
 	const updatedPolygons = polygons.map(data => {
+		console.log('vizval!')
+
 		tracks.forEach(data1 => {
 			if (
-				data1['longitude'] >= data.geometry.coordinates[0][0][0] &&
-				data1['longitude'] <= data.geometry.coordinates[0][1][0]
+				data1.lon >= data.geometry.coordinates[0][0][0] &&
+				data1.lon <= data.geometry.coordinates[0][1][0]
 			) {
 				if (
-					data1['latitude'] >= data.geometry.coordinates[0][2][1] &&
-					data1['latitude'] <= data.geometry.coordinates[0][0][1]
+					data1.lat >= data.geometry.coordinates[0][2][1] &&
+					data1.lat <= data.geometry.coordinates[0][0][1]
 				) {
 					sumSpeed += data1.speed
 					count += 1
@@ -67,7 +69,7 @@ export const updateGridSpeedLevels = (
 		layout: {},
 		paint: {
 			'fill-color': ['get', 'color'],
-			'fill-opacity': 0.4,
+			'fill-opacity': 0.3,
 		},
 	})
 }

@@ -16,22 +16,10 @@ function MapboxMap() {
 	const [polygons, setPolygons] = React.useState([])
 	// const [speeds, setSpeeds] = React.useState([])
 	const tracks = useTrack()
-	const route = useRoute(useAppSelector(state => state.routesSlice.cur) ?? '2')
+	const { route } = useRoute(
+		useAppSelector(state => state.routesSlice.cur) ?? '2'
+	)
 	const size = useAppSelector(state => state.polygonSlice.size)
-
-	useEffect(() => {
-		if (map) {
-			drawRoute(map, route)
-		}
-	}, [size])
-
-	useEffect(() => {
-		if (map) {
-			console.log(size)
-
-			initializeGrid(map, setPolygons, polygons, tracks, size)
-		}
-	}, [size])
 
 	useEffect(() => {
 		if (typeof window === 'undefined' || mapNode.current === null) return
@@ -47,13 +35,18 @@ function MapboxMap() {
 
 		mapboxMap.on('load', () => {
 			initializeGrid(mapboxMap, setPolygons, polygons, tracks, size)
-			updateGridSpeedLevels(polygons, tracks, setPolygons, mapboxMap)
 		})
 
 		return () => {
 			mapboxMap.remove()
 		}
 	}, [])
+
+	useEffect(() => {
+		if (map) {
+			updateGridSpeedLevels(polygons, tracks, setPolygons, map)
+		}
+	}, [tracks])
 
 	useEffect(() => {
 		if (route !== null && route.length > 0 && map) {
@@ -63,7 +56,7 @@ function MapboxMap() {
 
 	return (
 		<div
-			className='fixed z-0'
+			className=' z-0 fixed'
 			ref={mapNode}
 			style={{ width: '100%', height: '100%' }}
 		/>

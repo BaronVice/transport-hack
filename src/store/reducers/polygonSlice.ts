@@ -5,7 +5,7 @@ interface PolygonState {
 }
 
 const initialState: PolygonState = {
-	size: 0.005,
+	size: 0.01,
 }
 
 export const polygonSlice = createSlice({
