@@ -21,10 +21,18 @@ export default defineConfig({
 	plugins: [react(), svgr({})],
 	server: {
 		port: 3000,
+		proxy: {
+			'api/': {
+				target: 'https://touching-beloved-ibex.ngrok-free.app',
+				changeOrigin: true,
+				secure: false,
+				rewrite: path => path.replace(/^\/api/, ''),
+			},
+		},
 	},
 	build: {
 		rollupOptions: {
 			external: [/^node:\w+/],
 		},
 	},
-});
+})

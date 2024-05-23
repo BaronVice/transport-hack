@@ -1,0 +1,6 @@
+export interface Point {
+	lat: number
+	lon: number
+}
+
+export type Route = Point[]
