@@ -31,10 +31,13 @@ export const updateGridSpeedLevels = (
 				}
 			}
 		})
-		data.properties.averageSpeed = sumSpeed / count
-		if (!isNaN(data.properties.averageSpeed)) {
+
+		if (count != 0) {
+			data.properties.averageSpeed = sumSpeed / count
 			minAv = Math.min(minAv, data.properties.averageSpeed)
 			maxAv = Math.max(maxAv, data.properties.averageSpeed)
+		} else {
+			data.properties.averageSpeed = NaN
 		}
 		sumSpeed = 0
 		count = 0
@@ -51,6 +54,7 @@ export const updateGridSpeedLevels = (
 			const green = 255 - red
 			data.properties.color = `rgb(${green}, ${red}, 0)`
 		}
+
 		return data
 	})
 
